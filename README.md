@@ -1,7 +1,7 @@
 # UpyKey
-Lib for reading matrix keyboars in Micropython.
+Lib for reading matrix keyboards in Micropython.
 
-Originally developed by Bruno Martins
+Originally developed by Bruno Martins, 
 Adapted 2022 by Fionn Behrens to work with ESP8266 devices that can not PULL_DOWN
 (like the D1 mini and its derivatives)
 
