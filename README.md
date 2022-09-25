@@ -1,7 +1,9 @@
 # UpyKey
 Lib for reading matrix keyboars in Micropython.
 
-Developed and tested using de LoBo Micropython for ESP32, but it should work in the standard version both in ESP32 and ESP8266
+Originally developed by Bruno Martins
+Adapted 2022 by Fionn Behrens to work with ESP8266 devices that can not PULL_DOWN
+(like the D1 mini and its derivatives)
 
 ![](https://images-na.ssl-images-amazon.com/images/I/61mc5GqXFuL._SY355_.jpg)
 

@@ -1,7 +1,8 @@
 """
 This file is a class for controlling matrix keyboards in Micropython
-
 Copyright 2018 Bruno Martins
+
+Adapted 2022 by Fionn Behrens to work with ESP8266 devices that can not PULL_DOWN
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -9,10 +10,8 @@ in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
-
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -61,7 +60,7 @@ class UpyKey():
         """
         for col_pin in cols_pins:
             pin = Pin(col_pin, Pin.OUT)
-            pin.value(0)
+            pin.on()
             self._cols_pins.append(pin)
 
     def set_rows_pins(self, rows_pins):
@@ -70,7 +69,7 @@ class UpyKey():
         :param rows_pins: A list with the pin numbers of the row pins
         """
         for row_pin in rows_pins:
-            pin = Pin(row_pin, Pin.IN, pull=Pin.PULL_DOWN)
+            pin = Pin(row_pin, Pin.IN, pull=Pin.PULL_UP)
             self._rows_pins.append(pin)
 
     def set_keys(self, keys):
@@ -93,21 +92,20 @@ class UpyKey():
         returns [(0, 1), (0, 2)]
         if no key is being pressed:
         returns []
-
         :returns: A list of touples with the positions of the keys being
         pressed
         """
         response = []
         col_index = 0
         for col_pin in self._cols_pins:
-            col_pin.value(1)
+            col_pin.off()
             row_index = 0
             for row_pin in self._rows_pins:
-                if row_pin.value():
+                if not row_pin.value():
                     response.append((col_index, row_index))
                 row_index += 1
             col_index += 1
-            col_pin.value(0)
+            col_pin.on()
         return response
 
     def read_key_press_strings(self):
